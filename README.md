@@ -25,3 +25,9 @@ python3 manage.py shell
 >>> from django.utils import timezone
 >>> q = Question(question_text="Cual es el mejor curso de Platzi?", pub_date=timezone.now())
 >>> q.save()
+9. Consultando el dato con un PrimaryKey = 1 desde la consola de Django
+python3 manage.py shell
+
+>>> from polls.models import Question, Choice
+>>> Question.objects.get(pk=1)
+<Question: Cual es el mejor curso de Platzi?>
