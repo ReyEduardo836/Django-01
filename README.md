@@ -16,3 +16,12 @@ python3 manage.py startapp polls
 cd premiosplatziapp
 python3 manage.py makemigrations polls
 python3 manage.py migrate
+8. Agregando una "Question" a la base de datos con la consola de Django
+python3 manage.py shell
+
+>>> from polls.models import Question, Choice
+>>> Question.objects.all()
+<QuerySet []>
+>>> from django.utils import timezone
+>>> q = Question(question_text="Cual es el mejor curso de Platzi?", pub_date=timezone.now())
+>>> q.save()
