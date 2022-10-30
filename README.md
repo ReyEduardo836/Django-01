@@ -31,3 +31,11 @@ python3 manage.py shell
 >>> from polls.models import Question, Choice
 >>> Question.objects.get(pk=1)
 <Question: Cual es el mejor curso de Platzi?>
+10. Consultando una lista de datos con filter() desde la consola de Django
+>>> Question.objects.filter(question_text__startswith="Cual")
+<QuerySet [<Question: Cual es el mejor curso de Platzi?>,
+	<Question: Cual es la mejor escuela de platzi?>]>
+>>> Question.objects.filter(pub_date__year=timezone.now().year)
+<QuerySet [<Question: Cual es el mejor curso de Platzi?>,
+	<Question: Quien es el mejor profesor de platzi?>,
+	<Question: Cual es la mejor escuela de platzi?>]>
