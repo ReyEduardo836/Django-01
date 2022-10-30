@@ -55,3 +55,5 @@ python3 manage.py shell
 3
 >>> Choice.objects.filter(question__pub_date__year=timezone.now().year)
 <QuerySet [<Choice: Curso Basico de Python>, <Choice: Curso de Fundamentos de Ingenieria de Software>, <Choice: Curso de Elixir>]>
+12. Creando un superUsuario para poder entrar a Django Admin
+python3 manage.py createsuperuser
