@@ -12,3 +12,7 @@ python3 manage.py runserver
 6. Creando una app dentro del proyecto premiosplatziapp
 cd premiosplatziapp
 python3 manage.py startapp polls
+7. Hacemos una migracion de "polls" para mapear nuestros modelos a la base de datos
+cd premiosplatziapp
+python3 manage.py makemigrations polls
+python3 manage.py migrate
