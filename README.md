@@ -39,3 +39,19 @@ python3 manage.py shell
 <QuerySet [<Question: Cual es el mejor curso de Platzi?>,
 	<Question: Quien es el mejor profesor de platzi?>,
 	<Question: Cual es la mejor escuela de platzi?>]>
+11. Creando respuestas a la pregunta creada anteriormente desde la consola de Django
+>>> q = Question.objects.get(pk=1)
+>>> q.choice_set.create(choise_text="Curso Basico de Python", votes=0)
+<Choice: Curso Basico de Python>
+>>> q.choice_set.create(choise_text="Curso de Fundamentos de Ingenieria de Software", votes=0)
+<Choice: Curso de Fundamentos de Ingenieria de Software>
+>>> q.choice_set.create(choise_text="Curso de Elixir", votes=0)
+<Choice: Curso de Elixir>
+>>> q.choice_set.all()
+<QuerySet [<Choice: Curso Basico de Python>,
+	<Choice: Curso de Fundamentos de Ingenieria de Software>,
+	<Choice: Curso de Elixir>]>
+>>> q.choice_set.count()
+3
+>>> Choice.objects.filter(question__pub_date__year=timezone.now().year)
+<QuerySet [<Choice: Curso Basico de Python>, <Choice: Curso de Fundamentos de Ingenieria de Software>, <Choice: Curso de Elixir>]>
