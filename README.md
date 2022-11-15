@@ -57,3 +57,7 @@ python3 manage.py shell
 <QuerySet [<Choice: Curso Basico de Python>, <Choice: Curso de Fundamentos de Ingenieria de Software>, <Choice: Curso de Elixir>]>
 12. Creando un superUsuario para poder entrar a Django Admin
 python3 manage.py createsuperuser
+
+------- PYTHON INTERMEDIO ---------
+13. ejecutando el comando para los tests ubicados en polls
+python3 manage.py test polls
