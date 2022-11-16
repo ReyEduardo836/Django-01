@@ -4,6 +4,7 @@ import datetime
 #django
 from django.test import TestCase
 from django.utils import timezone
+from django.urls.base import reverse
 
 #Models
 from .models import Question
@@ -13,7 +14,7 @@ from .models import Question
 #Generalmente se hacen tests de:
 # Models
 # Vistas
-class QuestionModelTests(TestCase):
+class QuestionModelTests(TestCase): #Testeando el modelo "Question"
     def test_was_published_resently_with_future_question(self):
         """
         was_published_recently retorna falso para las preguntas
@@ -40,3 +41,39 @@ class QuestionModelTests(TestCase):
         time = timezone.now()
         present_question = Question(question_text = "Quien es el mejor Course Director de platzi", pub_date = time)
         self.assertIs(present_question.was_published_recently(), True)
+
+
+def create_question(question_text, days):
+    """
+    Creando una pregunta con el "question_text" dado y con los dias de diferencia
+    de publicacion con respecto al dia presente (numeros negativos para las preguntas publicadas en el pasado y numeros positivos para las preguntas que van a ser publicadas en el futuro)
+    """
+    time = timezone.now() + datetime.timedelta(days=days)
+    return Question.objects.create(question_text=question_text, pub_date=time)
+
+class QuestionIndexViewTest(TestCase): #testeando la vista "IndexView"
+    def test_no_questions(self):
+        """
+        Si no existe ninguna pregunta, se mostrara un mensaje apropiado
+        """
+        response = self.client.get(reverse("polls:index"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "No polls are available")
+        self.assertQuerysetEqual(response.context["latest_question_list"], [])
+
+    def test_future_questions(self):
+        """
+        Questions con un pub_date en el futuro no son mostradas en nuestro index
+        """
+        create_question("Future question", 30)
+        response = self.client.get(reverse("polls:index"))
+        self.assertContains(response, "No polls are available")
+        self.assertQuerysetEqual(response.context["latest_question_list"], [])
+
+    def test_past_questions(self):
+        """
+        Questions con un pub_date en el pasado son mostradas en nuetro index
+        """
+        question = create_question("Past question", -10)
+        response = self.client.get(reverse("polls:index"))
+        self.assertQuerysetEqual(response.context["latest_question_list"], [question])

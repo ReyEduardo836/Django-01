@@ -61,3 +61,6 @@ python3 manage.py createsuperuser
 ------- PYTHON INTERMEDIO ---------
 13. ejecutando el comando para los tests ubicados en polls
 python3 manage.py test polls
+Recordar que los tests se ejecutan con una base de datos temporal que se crea al 
+iniciar los tests y se destruye al finalizarlos (no toma en cuenta la base de datos
+de nuestro proyecto)
