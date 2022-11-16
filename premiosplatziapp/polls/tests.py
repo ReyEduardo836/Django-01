@@ -103,3 +103,25 @@ class QuestionIndexViewTest(TestCase): #testeando la vista "IndexView"
         future_question2 = create_question("Future question 2", 50)
         response = self.client.get(reverse("polls:index"))
         self.assertQuerysetEqual(response.context["latest_question_list"], [])
+
+
+class QuestionDetailViewTests(TestCase):
+    def test_future_question(self):
+        """
+        el detalle de una Question con una pub_date en el futuro retorna un error
+        404 no encontrado
+        """
+        future_question = create_question("Future question", 30)
+        url = reverse("polls:detail", args=(future_question.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_past_question(self):
+        """
+        el detalle de una Question con una pub_date en el pasado deberia mostrarnos
+        el texto de la pregunta
+        """
+        past_question = create_question("past question", -30)
+        url = reverse("polls:detail", args=(past_question.id,))
+        response = self.client.get(url)
+        self.assertContains(response, past_question.question_text)
