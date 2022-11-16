@@ -77,3 +77,29 @@ class QuestionIndexViewTest(TestCase): #testeando la vista "IndexView"
         question = create_question("Past question", -10)
         response = self.client.get(reverse("polls:index"))
         self.assertQuerysetEqual(response.context["latest_question_list"], [question])
+
+    def test_future_question_and_past_question(self):
+        """
+        Incluso si las questions pasada y futura existen, solo seran mostradas las 
+        preguntas en el pasado
+        """
+        past_question = create_question("Past question", -30)
+        future_question = create_question("Future question", 30)
+        response = self.client.get(reverse("polls:index"))
+        self.assertQuerysetEqual(response.context["latest_question_list"], [past_question])
+
+    def test_two_past_questions(self):
+        """
+        La pagina principal puede mostrar multiples preguntas
+        """
+        
+        past_question1 = create_question("Past question 1", -30)
+        past_question2 = create_question("Future question 2", -40)
+        response = self.client.get(reverse("polls:index"))
+        self.assertQuerysetEqual(response.context["latest_question_list"], [past_question1, past_question2])
+
+    def test_two_future_questions(self):
+        future_question1 = create_question("Future question 1", 30)
+        future_question2 = create_question("Future question 2", 50)
+        response = self.client.get(reverse("polls:index"))
+        self.assertQuerysetEqual(response.context["latest_question_list"], [])
