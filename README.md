@@ -4,19 +4,23 @@ python3 -m venv venv
 source ./venv/bin/activate
 3. Instalar Django
 sudo pip install django
-4. Iniciamos el proyecto de django
+4. Agregando requirements.txt
+pip freeze > requirements.txt
+5. para instalar los paquetes dentro de requirements.txt
+pip install -r requirements.txt
+6. Iniciamos el proyecto de django
 django-admin startproject premiosplatziapp
-5. corremos el servidor local
+7. corremos el servidor local
 cd premiosplatziapp
 python3 manage.py runserver
-6. Creando una app dentro del proyecto premiosplatziapp
+8. Creando una app dentro del proyecto premiosplatziapp
 cd premiosplatziapp
 python3 manage.py startapp polls
-7. Hacemos una migracion de "polls" para mapear nuestros modelos a la base de datos
+9. Hacemos una migracion de "polls" para mapear nuestros modelos a la base de datos
 cd premiosplatziapp
 python3 manage.py makemigrations polls
 python3 manage.py migrate
-8. Agregando una "Question" a la base de datos con la consola de Django
+10. Agregando una "Question" a la base de datos con la consola de Django
 python3 manage.py shell
 
 >>> from polls.models import Question, Choice
@@ -25,13 +29,13 @@ python3 manage.py shell
 >>> from django.utils import timezone
 >>> q = Question(question_text="Cual es el mejor curso de Platzi?", pub_date=timezone.now())
 >>> q.save()
-9. Consultando el dato con un PrimaryKey = 1 desde la consola de Django
+11. Consultando el dato con un PrimaryKey = 1 desde la consola de Django
 python3 manage.py shell
 
 >>> from polls.models import Question, Choice
 >>> Question.objects.get(pk=1)
 <Question: Cual es el mejor curso de Platzi?>
-10. Consultando una lista de datos con filter() desde la consola de Django
+12. Consultando una lista de datos con filter() desde la consola de Django
 >>> Question.objects.filter(question_text__startswith="Cual")
 <QuerySet [<Question: Cual es el mejor curso de Platzi?>,
 	<Question: Cual es la mejor escuela de platzi?>]>
@@ -39,7 +43,7 @@ python3 manage.py shell
 <QuerySet [<Question: Cual es el mejor curso de Platzi?>,
 	<Question: Quien es el mejor profesor de platzi?>,
 	<Question: Cual es la mejor escuela de platzi?>]>
-11. Creando respuestas a la pregunta creada anteriormente desde la consola de Django
+13. Creando respuestas a la pregunta creada anteriormente desde la consola de Django
 >>> q = Question.objects.get(pk=1)
 >>> q.choice_set.create(choise_text="Curso Basico de Python", votes=0)
 <Choice: Curso Basico de Python>
@@ -55,11 +59,11 @@ python3 manage.py shell
 3
 >>> Choice.objects.filter(question__pub_date__year=timezone.now().year)
 <QuerySet [<Choice: Curso Basico de Python>, <Choice: Curso de Fundamentos de Ingenieria de Software>, <Choice: Curso de Elixir>]>
-12. Creando un superUsuario para poder entrar a Django Admin
+14. Creando un superUsuario para poder entrar a Django Admin
 python3 manage.py createsuperuser
 
 ------- PYTHON INTERMEDIO ---------
-13. ejecutando el comando para los tests ubicados en polls
+15. ejecutando el comando para los tests ubicados en polls
 python3 manage.py test polls
 Recordar que los tests se ejecutan con una base de datos temporal que se crea al 
 iniciar los tests y se destruye al finalizarlos (no toma en cuenta la base de datos
